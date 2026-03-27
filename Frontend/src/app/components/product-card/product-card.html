@@ -1,0 +1,20 @@
+<div class="product-card" id="product-{{ product.id }}">
+  <div class="product-header">
+    <h3 class="product-name">{{ product.name }}</h3>
+    <span class="status-badge" [class.in-stock]="inStock" [class.out-of-stock]="!inStock">
+      {{ inStock ? 'In Stock' : 'Out of Stock' }}
+    </span>
+  </div>
+  <p class="product-description">{{ product.description }}</p>
+  <div class="product-footer">
+    <span class="product-price">₹{{ product.price | number:'1.2-2' }}</span>
+    <span class="product-stock">Qty: {{ product.stockQuantity }}</span>
+    <button
+      class="btn-add-cart"
+      [disabled]="!inStock || loading"
+      (click)="onAddToCart()"
+      id="add-to-cart-{{ product.id }}">
+      {{ loading ? 'Adding...' : 'Add to Cart' }}
+    </button>
+  </div>
+</div>

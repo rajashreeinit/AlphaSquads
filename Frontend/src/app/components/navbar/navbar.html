@@ -1,0 +1,36 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a routerLink="/dashboard" class="logo">ShopEase</a>
+    <button class="menu-toggle" (click)="toggleMenu()" id="menu-toggle-btn">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+
+  <div class="navbar-links" [class.open]="menuOpen">
+    @if (!isAdmin) {
+      <a routerLink="/dashboard" routerLinkActive="active" id="nav-dashboard">Products</a>
+      <a routerLink="/cart" routerLinkActive="active" id="nav-cart">
+        Cart
+        @if (cartCount > 0) {
+          <span class="badge">{{ cartCount }}</span>
+        }
+      </a>
+    }
+
+    @if (isAdmin) {
+      <a routerLink="/admin" routerLinkActive="active" id="nav-admin-dashboard">Dashboard</a>
+      <a routerLink="/admin/products" routerLinkActive="active" id="nav-admin-products">Products</a>
+      <a routerLink="/admin/orders" routerLinkActive="active" id="nav-admin-orders">Orders</a>
+      <a routerLink="/admin/users" routerLinkActive="active" id="nav-admin-users">Users</a>
+      <a routerLink="/admin/inventory" routerLinkActive="active" id="nav-admin-inventory">Inventory</a>
+    }
+
+    <div class="navbar-user">
+      <span class="user-name">{{ user?.name }}</span>
+      <span class="user-role badge-role">{{ user?.role || 'Customer' }}</span>
+      <button class="btn-logout" (click)="logout()" id="logout-btn">Logout</button>
+    </div>
+  </div>
+</nav>

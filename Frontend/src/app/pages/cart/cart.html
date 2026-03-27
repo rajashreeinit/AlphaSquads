@@ -1,0 +1,62 @@
+<div class="cart-page">
+  <div class="page-header">
+    <h1>Shopping Cart</h1>
+  </div>
+
+  @if (error) {
+    <div class="alert alert-error" id="cart-error">{{ error }}</div>
+  }
+
+  @if (loading) {
+    <div class="loading-container" id="cart-loading">
+      <div class="loader"></div>
+      <p>Loading cart...</p>
+    </div>
+  }
+
+  @if (!loading && hasItems) {
+    <div class="cart-layout">
+      <div class="cart-items">
+        @for (item of cart!.items; track item.id) {
+          <app-cart-item
+            [item]="item"
+            (updateQuantity)="onUpdateQuantity($event)"
+            (removeItem)="onRemoveItem($event)">
+          </app-cart-item>
+        }
+        <button class="btn-clear" (click)="clearCart()" id="clear-cart-btn">Clear Cart</button>
+      </div>
+
+      <div class="cart-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-row">
+          <span>Items</span>
+          <span>{{ cart!.items.length }}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span class="total-amount">₹{{ cart!.totalAmount | number:'1.2-2' }}</span>
+        </div>
+        <button
+          class="btn-checkout"
+          (click)="placeOrder()"
+          [disabled]="placing"
+          id="place-order-btn">
+          @if (placing) {
+            <span class="spinner"></span> Placing Order...
+          } @else {
+            Place Order
+          }
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (!loading && !hasItems && !error) {
+    <div class="empty-state" id="cart-empty">
+      <p class="empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></p>
+      <p class="empty-text">Your cart is empty</p>
+      <a routerLink="/dashboard" class="btn-shop">Browse Products</a>
+    </div>
+  }
+</div>

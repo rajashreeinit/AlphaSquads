@@ -1,0 +1,75 @@
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Products</h1>
+    <p class="subtitle">Browse our collection</p>
+  </div>
+
+  <!-- Search & Filter Bar -->
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+        placeholder="Search products..."
+        id="search-input">
+    </div>
+    <div class="filter-buttons">
+      <button
+        class="filter-btn"
+        [class.active]="!selectedCategoryId"
+        (click)="onCategoryChange(null)"
+        id="filter-all">
+        All
+      </button>
+      @for (cat of categories; track cat.id) {
+        <button
+          class="filter-btn"
+          [class.active]="selectedCategoryId === cat.id"
+          (click)="onCategoryChange(cat.id)"
+          id="filter-cat-{{ cat.id }}">
+          {{ cat.name }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Messages -->
+  @if (successMessage) {
+    <div class="alert alert-success" id="success-alert">{{ successMessage }}</div>
+  }
+  @if (error) {
+    <div class="alert alert-error" id="error-alert">{{ error }}</div>
+  }
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="loading-container" id="loading-indicator">
+      <div class="loader"></div>
+      <p>Loading products...</p>
+    </div>
+  }
+
+  <!-- Product Grid -->
+  @if (!loading && filteredProducts.length > 0) {
+    <div class="product-grid">
+      @for (product of filteredProducts; track product.id) {
+        <app-product-card
+          [product]="product"
+          [loading]="addingProductId === product.id"
+          (addToCart)="onAddToCart($event)">
+        </app-product-card>
+      }
+    </div>
+  }
+
+  <!-- No Results -->
+  @if (!loading && filteredProducts.length === 0 && !error) {
+    <div class="empty-state" id="no-results">
+      <p class="empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></p>
+      <p class="empty-text">No products found</p>
+      <p class="empty-hint">Try adjusting your search or filter</p>
+    </div>
+  }
+</div>

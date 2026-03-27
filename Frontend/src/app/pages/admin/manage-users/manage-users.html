@@ -1,0 +1,65 @@
+<div class="manage-page">
+  <div class="page-header">
+    <h1>Manage Users</h1>
+    <p class="subtitle">View and manage registered users</p>
+  </div>
+
+  @if (successMessage) {
+    <div class="alert alert-success">{{ successMessage }}</div>
+  }
+  @if (error) {
+    <div class="alert alert-error">{{ error }}</div>
+  }
+
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" placeholder="Search by name, email, or role..." id="admin-search-users">
+  </div>
+
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loader"></div>
+      <p>Loading users...</p>
+    </div>
+  }
+
+  @if (!loading && filteredUsers.length > 0) {
+    <div class="table-container">
+      <table class="data-table" id="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of filteredUsers; track user.id) {
+            <tr>
+              <td>{{ user.id }}</td>
+              <td class="user-name">{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="role-badge" [class.admin]="user.role === 'Admin'" [class.customer]="user.role !== 'Admin'">
+                  {{ user.role || 'Customer' }}
+                </span>
+              </td>
+              <td>
+                <button class="btn-danger-sm" (click)="deleteUser(user.id)" [disabled]="user.role === 'Admin'" id="delete-user-{{ user.id }}">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (!loading && filteredUsers.length === 0) {
+    <div class="empty-state">
+      <p>No users found</p>
+    </div>
+  }
+</div>

@@ -1,0 +1,38 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>ShopEase</h1>
+      <h2>Welcome Back</h2>
+      <p class="auth-subtitle">Sign in to your account</p>
+    </div>
+
+    @if (message) {
+      <div class="message" [class.success]="messageType === 'success'" [class.error]="messageType === 'error'" id="login-message">
+        {{ message }}
+      </div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" id="login-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" formControlName="email" placeholder="you@example.com" id="login-email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" placeholder="Enter your password" id="login-password">
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid || loading" class="btn-primary" id="login-submit">
+        @if (loading) {
+          <span class="spinner"></span> Signing in...
+        } @else {
+          Sign In
+        }
+      </button>
+    </form>
+
+    <p class="auth-link">
+      Don't have an account? <a routerLink="/register">Create one</a>
+    </p>
+  </div>
+</div>

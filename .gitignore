@@ -1,0 +1,19 @@
+# Mac
+.DS_Store
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.sqlite
+*.db
+auth.db
+appsettings.Development.json

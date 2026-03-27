@@ -1,0 +1,42 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>ShopEase</h1>
+      <h2>Create Account</h2>
+      <p class="auth-subtitle">Join us and start shopping</p>
+    </div>
+
+    @if (message) {
+      <div class="message" [class.success]="messageType === 'success'" [class.error]="messageType === 'error'" id="register-message">
+        {{ message }}
+      </div>
+    }
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" id="register-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" formControlName="name" placeholder="John Doe" id="register-name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" formControlName="email" placeholder="you@example.com" id="register-email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" placeholder="Min 8 characters" id="register-password">
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid || loading" class="btn-primary" id="register-submit">
+        @if (loading) {
+          <span class="spinner"></span> Creating Account...
+        } @else {
+          Create Account
+        }
+      </button>
+    </form>
+
+    <p class="auth-link">
+      Already have an account? <a routerLink="/login">Sign In</a>
+    </p>
+  </div>
+</div>

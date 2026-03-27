@@ -1,0 +1,16 @@
+<div class="cart-item" id="cart-item-{{ item.id }}">
+  <div class="item-info">
+    <h4 class="item-name">{{ item.productName }}</h4>
+    <p class="item-price">₹{{ item.price | number:'1.2-2' }} each</p>
+  </div>
+  <div class="item-controls">
+    <button class="qty-btn" (click)="decrement()" [disabled]="item.quantity <= 1">−</button>
+    <span class="qty-value">{{ item.quantity }}</span>
+    <button class="qty-btn" (click)="increment()">+</button>
+  </div>
+  <div class="item-subtotal">
+    <span class="subtotal-label">Subtotal</span>
+    <span class="subtotal-value">₹{{ item.subtotal | number:'1.2-2' }}</span>
+  </div>
+  <button class="btn-remove" (click)="remove()" id="remove-item-{{ item.id }}">✕</button>
+</div>

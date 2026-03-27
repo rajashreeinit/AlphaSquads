@@ -1,0 +1,56 @@
+<div class="manage-page">
+  <div class="page-header">
+    <h1>Manage Orders</h1>
+    <p class="subtitle">View all customer orders</p>
+  </div>
+
+  @if (error) {
+    <div class="alert alert-error">{{ error }}</div>
+  }
+
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" placeholder="Search by order ID or status..." id="admin-search-orders">
+  </div>
+
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loader"></div>
+      <p>Loading orders...</p>
+    </div>
+  }
+
+  @if (!loading && filteredOrders.length > 0) {
+    <div class="table-container">
+      <table class="data-table" id="orders-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of filteredOrders; track order.id) {
+            <tr>
+              <td>#{{ order.id }}</td>
+              <td>
+                <span class="status-badge" [class]="order.status.toLowerCase()">{{ order.status }}</span>
+              </td>
+              <td>{{ order.items.length }} items</td>
+              <td class="price">₹{{ order.totalAmount | number:'1.2-2' }}</td>
+              <td>{{ order.createdAt | date:'short' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (!loading && filteredOrders.length === 0) {
+    <div class="empty-state">
+      <p>No orders found</p>
+    </div>
+  }
+</div>

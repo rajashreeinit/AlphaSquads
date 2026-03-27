@@ -1,0 +1,64 @@
+<div class="manage-page">
+  <div class="page-header">
+    <h1>Inventory</h1>
+    <p class="subtitle">Monitor stock levels across products</p>
+  </div>
+
+  @if (error) {
+    <div class="alert alert-error">{{ error }}</div>
+  }
+
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" placeholder="Search by product name..." id="admin-search-inventory">
+  </div>
+
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loader"></div>
+      <p>Loading inventory...</p>
+    </div>
+  }
+
+  @if (!loading && filteredInventory.length > 0) {
+    <div class="table-container">
+      <table class="data-table" id="inventory-table">
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Available</th>
+            <th>Reserved</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of filteredInventory; track item.productId) {
+            <tr>
+              <td>{{ item.productId }}</td>
+              <td class="product-name">{{ item.productName }}</td>
+              <td>{{ item.availableQuantity }}</td>
+              <td>{{ item.reservedQuantity }}</td>
+              <td class="total-qty">{{ item.totalQuantity }}</td>
+              <td>
+                @if (item.availableQuantity === 0) {
+                  <span class="status-badge out">Out of Stock</span>
+                } @else if (item.availableQuantity < 10) {
+                  <span class="status-badge low">Low Stock</span>
+                } @else {
+                  <span class="status-badge ok">In Stock</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (!loading && filteredInventory.length === 0) {
+    <div class="empty-state">
+      <p>No inventory data found</p>
+    </div>
+  }
+</div>
