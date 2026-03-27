@@ -1,77 +1,296 @@
 # ShopEase Platform Architecture
 
-This repository contains the source code for ShopEase, a comprehensive e-commerce platform built as part of the HCL Hackathon. The application is divided into a robust .NET Web API backend and a responsive Angular frontend, employing modern development practices, secure authentication, and a clear architectural pattern.
+# 🍕 AlphaSquads — Retail Ordering Website
 
-## Project Overview
+> A full-stack web application enabling customers to browse, order, and receive **Pizza, Cold Drinks, and Breads** seamlessly, with secure and efficient operations.
 
-ShopEase provides a centralized ordering system allowing customers to browse product catalogs, manage shopping carts, and place orders securely. The platform includes an administrative interface for managing inventory, viewing order history, and handling user accounts.
+---
 
-### Core Architecture
+## 📋 Table of Contents
 
-The system utilizes a decoupled architecture where the client application communicates with the server via RESTful API endpoints.
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [API Reference](#api-reference)
+- [Routing Overview](#routing-overview)
+- [Security & Reliability](#security--reliability)
+- [Data Seeding](#data-seeding)
+- [Team Contributions](#team-contributions)
+- [Status](#status)
 
-* Backend Framework: .NET 8 Web API
-* Frontend Framework: Angular 21 (Zoneless architecture, Standalone components)
-* Database: SQLite (Entity Framework Core)
-* Authentication: JSON Web Tokens (JWT)
-* Design Pattern: Repository and Service Pattern
+---
 
-## Backend Specifications
+## Overview
 
-The backend infrastructure is housed within the `backend/AuthAPI` directory and uses ASP.NET Core. 
+AlphaSquads is a **Use Case 1 — Full-Stack .NET** retail ordering platform. It provides a centralized portal for managing brands, categories, and packaging, while supporting seamless menu browsing, cart management, order placement, and automatic inventory updates.
 
-### Key Components
+---
 
-* Controllers: Handle incoming HTTP requests and map them to respective services.
-* Services: Encapsulate business logic.
-* Repositories: Abstract data access via Entity Framework Core.
-* Middleware: Custom exception handling and rate limiting to prevent abuse.
-* Setup: The database is automatically migrated and seeded with initial administrative users and product categories upon application startup.
+## Features
 
-### API Security
+### ✅ Core Features
 
-All privileged endpoints require a valid JWT passed in the Authorization header. Role-based access control enforces administrative boundaries, preventing customer accounts from accessing inventory or system metrics. Request frequency is throttled via built-in .NET 8 fixed window rate limiting.
+- Centralized portal for **brands, categories, and packaging**
+- Menu browsing, cart management, and order placement
+- Automatic inventory updates on confirmed orders
+- Secure APIs with auth, authorization, and rate limiting
+- REST endpoints validated via **Postman / Swagger**
+- Code and design versioned in **GitHub**
 
-## Frontend Specifications
+### 🚀 Stretch Features
 
-The client application is located in the `Frontend` directory and provides distinct user experiences for customers and administrators.
+- Order history and quick reorder for users
 
-### Key Components
+---
 
-* Application State: Managed via RxJS BehaviorSubjects.
-* Component Architecture: Strictly standalone components removing the need for ngModule.
-* Data Fetching: HttpClient with functional interceptors for attaching authentication tokens.
-* Change Detection: Optimized zoneless approach utilizing explicit ChangeDetectorRef updates.
+## Tech Stack
 
-## Local Environment Setup
+### Frontend — Angular
 
-### Prerequisites
+| Area | Details |
+|------|---------|
+| Architecture | Single Page Application (SPA) |
+| Routing | Guarded customer and admin routes |
+| Services | Auth, Cart, Orders, Products, Categories, Admin |
 
-* Node.js (v22 or higher)
-* .NET SDK (v8.0 or higher)
-* Angular CLI (v21)
+### Backend — ASP.NET Core
 
-### Starting the Services
+| Area | Details |
+|------|---------|
+| API | REST API with JWT Authentication |
+| Security | Rate limiting, CORS, Swagger UI |
+| Database | SQLite with EF Core |
+| Architecture | Repository + Service layers |
+| Authorization | Role-based access (Admin / Customer) |
 
-1. Initialize the backend service:
-Navigate to `backend/AuthAPI` and execute:
-> dotnet run
+---
 
-This action will provision the SQLite database and start the API server on `http://localhost:5000`. Swagger documentation is available at the root URL.
+## Project Structure
 
-2. Initialize the frontend client:
-Navigate to the `Frontend` directory and execute:
-> npm install
-> npm start
+```
+Frontend/
+└── src/app/
+    ├── components/
+    │   ├── cart-item/
+    │   ├── navbar/
+    │   └── product-card/
+    ├── pages/
+    │   ├── admin/
+    │   ├── cart/
+    │   ├── dashboard/
+    │   ├── login/
+    │   ├── order-confirmation/
+    │   ├── order-history/
+    │   └── register/
+    └── services/
+        ├── auth.ts
+        ├── cart.service.ts
+        ├── category.service.ts
+        ├── order.service.ts
+        ├── product.service.ts
+        └── admin.service.ts
 
-The application will be accessible at `http://localhost:4200`.
+backend/
+└── AuthAPI/
+    ├── Controllers/
+    │   ├── AuthController.cs
+    │   ├── ProductsController.cs
+    │   ├── CategoriesController.cs
+    │   ├── CartController.cs
+    │   ├── OrdersController.cs
+    │   └── AdminController.cs
+    ├── Services/
+    │   ├── AuthService.cs
+    │   ├── CartService.cs
+    │   ├── CategoryService.cs
+    │   ├── OrderService.cs
+    │   └── ProductService.cs
+    ├── Repositories/
+    │   └── *Repository.cs + I*Repository.cs
+    ├── Models/
+    │   └── User.cs, Product.cs, Category.cs, Order.cs, Cart.cs, Inventory.cs
+    ├── Auth/
+    │   └── JwtTokenGenerator.cs
+    ├── Data/
+    │   └── AppDbContext.cs
+    ├── Middleware/
+    │   └── ExceptionMiddleware.cs
+    ├── API_CONTRACTS.md
+    └── Program.cs
+```
 
-## Repository Structure
+---
 
-* `/backend/AuthAPI` Contains all server side logic, database configurations, and API definitions.
-* `/Frontend` Contains all client side modules, UI components, HTML templates, and CSS stylesheets.
-* `/.gitignore` Specifies untracked files to ignore for Git version control.
+## API Reference
 
-## Documentation
+### 🔐 Authentication
 
-For specific data models and payload structures, refer to `API_CONTRACTS.md` located in the backend directory. Detailed file hierarchies are documented passing through the `STRUCTURE.md` reference file.
+| Method | Endpoint |
+|--------|----------|
+| `POST` | `/api/auth/register` |
+| `POST` | `/api/auth/login` |
+
+### 📦 Products & Categories
+
+| Method | Endpoint |
+|--------|----------|
+| `GET` | `/api/products` |
+| `GET` | `/api/products/{id}` |
+| `GET` | `/api/products/category/{categoryId}` |
+| `GET` | `/api/categories` |
+| `GET` | `/api/categories/{id}` |
+
+### 🛒 Cart (Customer)
+
+| Method | Endpoint |
+|--------|----------|
+| `GET` | `/api/cart` |
+| `POST` | `/api/cart` |
+| `PUT` | `/api/cart/{itemId}` |
+| `DELETE` | `/api/cart/{itemId}` |
+| `DELETE` | `/api/cart/clear` |
+
+### 📋 Orders (Customer)
+
+| Method | Endpoint |
+|--------|----------|
+| `GET` | `/api/orders` |
+| `GET` | `/api/orders/{id}` |
+| `POST` | `/api/orders` |
+
+### 🛠️ Admin
+
+| Method | Endpoint |
+|--------|----------|
+| `POST` | `/api/admin/products` |
+| `DELETE` | `/api/admin/products/{id}` |
+| `POST` | `/api/admin/categories` |
+| `DELETE` | `/api/admin/categories/{id}` |
+| `GET` | `/api/admin/inventory` |
+| `GET` | `/api/admin/orders` |
+| `GET` | `/api/admin/users` |
+| `DELETE` | `/api/admin/users/{id}` |
+
+> Full request/response formats are documented in `backend/AuthAPI/API_CONTRACTS.md`.
+
+---
+
+## Routing Overview
+
+### Public Routes
+
+| Path | Page |
+|------|------|
+| `/login` | Login |
+| `/register` | Register |
+
+### Customer Routes *(Auth Guard)*
+
+| Path | Page |
+|------|------|
+| `/dashboard` | Menu Browsing |
+| `/cart` | Shopping Cart |
+| `/order-confirmation/:id` | Order Confirmation |
+| `/orders` | Order History |
+
+### Admin Routes *(Admin Guard)*
+
+| Path | Page |
+|------|------|
+| `/admin` | Admin Dashboard |
+| `/admin/products` | Product Management |
+| `/admin/orders` | Orders Monitoring |
+| `/admin/users` | User Management |
+| `/admin/inventory` | Inventory View |
+
+---
+
+## Security & Reliability
+
+- **JWT-based authentication** across all protected routes
+- **Role-based authorization** — Admin and Customer roles
+- **Rate limiting** — stricter limits applied on auth endpoints
+- **Centralized exception middleware** for consistent error handling
+- **Swagger UI** enabled for API exploration and testing
+
+---
+
+## Data Seeding
+
+On startup, the backend automatically seeds the database with:
+
+- **Users** — one Admin and one Customer
+- **Categories** — Pizza, Cold Drinks, Breads
+- **Sample products** with associated inventory entries
+
+---
+
+## Team Contributions
+
+### 🔐 Siddharth Sharma — Authentication & Public APIs *(Backend Lead)*
+
+- Designed and implemented the **JWT-based authentication system**
+- Created login and registration flows
+- Built **DTOs, Services, and Models** for authentication and users
+- Implemented the **JWT Token Generator**
+- Developed **public endpoints** (auth, product browsing, categories)
+- Integrated **Exception Middleware**
+- Contributed to **overall backend architecture and clean layering**
+
+---
+
+### 🛒 Rajashree Pal — Customer Features *(Backend)*
+
+- Implemented **Customer Cart APIs**
+- Developed the **order placement workflow**
+- Built **Order History and Quick Reorder logic**
+- Integrated **inventory deduction on order confirmation**
+- Designed **CartService and OrderService logic**
+- Ensured **customer authorization and input validation**
+
+---
+
+### 🛠️ Rythm — Admin Features *(Backend)*
+
+- Implemented **AdminController endpoints**
+- Built **Product and Category management APIs**
+- Implemented **User management** (view and delete users)
+- Developed **Inventory viewing endpoints**
+- Built **Admin order monitoring functionality**
+- Ensured **role-based authorization and Admin guard logic**
+
+---
+
+### 🎨 Garv Gambhir — Frontend *(Angular — Customer UI)*
+
+- Developed customer-facing pages: Dashboard, Cart, Order Confirmation, Order History
+- Built reusable components: `product-card`, `cart-item`
+- Integrated **CartService and OrderService** with backend APIs
+- Implemented **Auth Guard** for customer routes
+
+---
+
+### 🎨 Archit Mishra — Frontend *(Angular — Admin UI)*
+
+- Developed admin pages: Dashboard, Product Management, Orders Monitoring, Inventory View, Users Management
+- Implemented **Admin Guard routing**
+- Integrated **AdminService APIs**
+- Handled **SPA routing structure**
+- Worked on **Navbar and layout consistency**
+
+---
+
+## 🤝 Team Collaboration
+
+- **GitHub** — code versioning and feature branching
+- **Postman & Swagger** — API validation and testing
+- **Modular clean architecture** — followed for scalability
+- **Continuous frontend ↔ backend integration** throughout development
+
+---
+
+## Status
+
+✅ All **core and stretch requirements** for Full-Stack .NET — Use Case 1 are fully implemented.
+
