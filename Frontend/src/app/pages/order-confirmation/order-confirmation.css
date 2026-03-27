@@ -158,3 +158,27 @@
 .btn-continue:hover {
   background: #1e40af;
 }
+
+.confirmation-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 12px 28px;
+  background: white;
+  color: #1d4ed8;
+  border: 1px solid #1d4ed8;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #eff6ff;
+}

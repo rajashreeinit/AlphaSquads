@@ -6,6 +6,7 @@ import { Register } from './pages/register/register';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { CartPage } from './pages/cart/cart';
 import { OrderConfirmationPage } from './pages/order-confirmation/order-confirmation';
+import { OrderHistoryPage } from './pages/order-history/order-history';
 import { AdminDashboard } from './pages/admin/admin-dashboard/admin-dashboard';
 import { ManageProducts } from './pages/admin/manage-products/manage-products';
 import { ManageOrders } from './pages/admin/manage-orders/manage-orders';
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
   { path: 'cart', component: CartPage, canActivate: [authGuard] },
   { path: 'order-confirmation/:id', component: OrderConfirmationPage, canActivate: [authGuard] },
+  { path: 'orders', component: OrderHistoryPage, canActivate: [authGuard] },
 
   // Admin routes
   { path: 'admin', component: AdminDashboard, canActivate: [adminGuard] },

@@ -26,6 +26,25 @@ public class OrdersController : ControllerBase
         return int.Parse(userIdClaim?.Value ?? throw new UnauthorizedAccessException("User ID not found"));
     }
 
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<List<OrderDto>>> GetUserOrders()
+    {
+        try
+        {
+            var userId = GetUserId();
+            var orders = await _orderService.GetUserOrdersAsync(userId);
+            return Ok(orders);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting user orders");
+            return StatusCode(500, new { message = "Internal server error" });
+        }
+    }
+
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
