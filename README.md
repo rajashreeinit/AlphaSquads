@@ -1,12 +1,12 @@
 # ShopEase Platform Architecture
 
-# 🍕 AlphaSquads — Retail Ordering Website
+# AlphaSquads — Retail Ordering Website
 
 > A full-stack web application enabling customers to browse, order, and receive **Pizza, Cold Drinks, and Breads** seamlessly, with secure and efficient operations.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
@@ -29,7 +29,7 @@ AlphaSquads is a **Use Case 1 — Full-Stack .NET** retail ordering platform. It
 
 ## Features
 
-### ✅ Core Features
+### Core Features
 
 - Centralized portal for **brands, categories, and packaging**
 - Menu browsing, cart management, and order placement
@@ -38,7 +38,7 @@ AlphaSquads is a **Use Case 1 — Full-Stack .NET** retail ordering platform. It
 - REST endpoints validated via **Postman / Swagger**
 - Code and design versioned in **GitHub**
 
-### 🚀 Stretch Features
+### Stretch Features
 
 - Order history and quick reorder for users
 
@@ -124,14 +124,14 @@ backend/
 
 ## API Reference
 
-### 🔐 Authentication
+### Authentication
 
 | Method | Endpoint |
 |--------|----------|
 | `POST` | `/api/auth/register` |
 | `POST` | `/api/auth/login` |
 
-### 📦 Products & Categories
+### Products & Categories
 
 | Method | Endpoint |
 |--------|----------|
@@ -151,7 +151,7 @@ backend/
 | `DELETE` | `/api/cart/{itemId}` |
 | `DELETE` | `/api/cart/clear` |
 
-### 📋 Orders (Customer)
+### Orders (Customer)
 
 | Method | Endpoint |
 |--------|----------|
@@ -228,7 +228,7 @@ On startup, the backend automatically seeds the database with:
 
 ## Team Contributions
 
-### 🔐 Siddharth Sharma — Authentication & Public APIs *(Backend Lead)*
+### Siddharth Sharma — Authentication & Public APIs *(Backend Lead)*
 
 - Designed and implemented the **JWT-based authentication system**
 - Created login and registration flows
@@ -240,7 +240,7 @@ On startup, the backend automatically seeds the database with:
 
 ---
 
-### 🛒 Rajashree Pal — Customer Features *(Backend)*
+### Rajashree Pal — Customer Features *(Backend)*
 
 - Implemented **Customer Cart APIs**
 - Developed the **order placement workflow**
@@ -251,7 +251,7 @@ On startup, the backend automatically seeds the database with:
 
 ---
 
-### 🛠️ Rythm — Admin Features *(Backend)*
+### Rythm — Admin Features *(Backend)*
 
 - Implemented **AdminController endpoints**
 - Built **Product and Category management APIs**
@@ -262,7 +262,7 @@ On startup, the backend automatically seeds the database with:
 
 ---
 
-### 🎨 Garv Gambhir — Frontend *(Angular — Customer UI)*
+### Garv Gambhir — Frontend *(Angular — Customer UI)*
 
 - Developed customer-facing pages: Dashboard, Cart, Order Confirmation, Order History
 - Built reusable components: `product-card`, `cart-item`
@@ -271,7 +271,7 @@ On startup, the backend automatically seeds the database with:
 
 ---
 
-### 🎨 Archit Mishra — Frontend *(Angular — Admin UI)*
+### Archit Mishra — Frontend *(Angular — Admin UI)*
 
 - Developed admin pages: Dashboard, Product Management, Orders Monitoring, Inventory View, Users Management
 - Implemented **Admin Guard routing**
@@ -281,7 +281,7 @@ On startup, the backend automatically seeds the database with:
 
 ---
 
-## 🤝 Team Collaboration
+## Team Collaboration
 
 - **GitHub** — code versioning and feature branching
 - **Postman & Swagger** — API validation and testing
